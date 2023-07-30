@@ -4,8 +4,8 @@ import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal, Web3Button, useWeb3ModalTheme } from '@web3modal/react'
 import { useState } from 'react';
 import { configureChains, createConfig, WagmiConfig} from 'wagmi'
-import { useContractRead } from 'wagmi'
-import { sepolia } from 'wagmi/chains'
+import { useContractRead, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { polygonMumbai } from 'wagmi/chains'
 // import { abi } from "./abi/faucetAbi.json"
 
 
@@ -210,7 +210,7 @@ function App() {
       }
     ],
   }
-  const chains = [sepolia]
+  const chains = [polygonMumbai]
   const projectId = '8ab1f09f61d98b698626395d47355c8e'
   const { theme, setTheme } = useWeb3ModalTheme()
   // State to store the value entered in the input
@@ -234,11 +234,38 @@ function App() {
     publicClient
   })
 
-  const { data, isError, isLoading } = useContractRead({
-    address: '0xDDB2DD250821552A10B4a8E303f8bbE16aDF2104',
-    abi: faucetAbi.abi,
-    functionName: 'getBalance',
-  })
+  //use contract read
+  function Example(){
+    const { data, isError, isLoading } = useContractRead({
+      address: '0xf723B0f912f90a4a012C2Dff5C46146f71e6aA19',
+      abi: faucetAbi.abi,
+      functionName: 'getBalance',
+    })
+    console.log("this is data", {data})
+    return(
+      <p>Data balance = {data}</p>
+    )
+  }
+
+  //use contractwrite
+  function ContractWrite(){
+    const { data, isLoading, isSuccess, write } = useContractWrite({
+      address: '0xf723B0f912f90a4a012C2Dff5C46146f71e6aA19',
+      abi: faucetAbi.abi,
+      functionName: 'requestTokens',
+    })
+    return(
+      <button 
+        className="form-button"
+        onClick={() =>
+          write({
+            args: [inputValue],
+          })
+        }
+        >Submit</button>
+    )
+  }
+  
   const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
   
@@ -248,11 +275,9 @@ function App() {
      <WagmiConfig config={wagmiConfig}>
         <h1>Wallet Connect Dapp</h1>
         <Web3Button />
-      </WagmiConfig>
-
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-
-       <div className="form-container">
+        <Example />
+       
+        <div className="form-container">
       <div className="form">
       <input
         type="text"
@@ -261,14 +286,16 @@ function App() {
         placeholder="Enter address"
         className="form-input"
       />
-        <button 
-        className="form-button"
-        onClick={handleButton}
-        >Submit</button>
+         <ContractWrite/>
       </div>
     </div>
 
     {/* <p>Balance = {data}</p> */}
+      </WagmiConfig>
+
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+
+      
     
 
     </div>
