@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { configureChains, createConfig, WagmiConfig} from 'wagmi'
 import { useContractRead } from 'wagmi'
 import { sepolia } from 'wagmi/chains'
+// import { abi } from "./abi/faucetAbi.json"
 
 
 function App() {
@@ -267,7 +268,7 @@ function App() {
       </div>
     </div>
 
-    <p>Balance = {data}</p>
+    {/* <p>Balance = {data}</p> */}
     
 
     </div>
