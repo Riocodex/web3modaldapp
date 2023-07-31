@@ -15,12 +15,17 @@ function App() {
       {
         "inputs": [
           {
-            "internalType": "address",
-            "name": "tokenAddress",
-            "type": "address"
+            "internalType": "uint256",
+            "name": "cap",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "reward",
+            "type": "uint256"
           }
         ],
-        "stateMutability": "payable",
+        "stateMutability": "nonpayable",
         "type": "constructor"
       },
       {
@@ -29,36 +34,23 @@ function App() {
           {
             "indexed": true,
             "internalType": "address",
-            "name": "from",
+            "name": "owner",
             "type": "address"
           },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "Deposit",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
           {
             "indexed": true,
             "internalType": "address",
-            "name": "by",
+            "name": "spender",
             "type": "address"
           },
           {
-            "indexed": true,
+            "indexed": false,
             "internalType": "uint256",
-            "name": "amount",
+            "name": "value",
             "type": "uint256"
           }
         ],
-        "name": "EthWithdrawn",
+        "name": "Approval",
         "type": "event"
       },
       {
@@ -70,19 +62,6 @@ function App() {
             "name": "from",
             "type": "address"
           },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "FeePaid",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
           {
             "indexed": true,
             "internalType": "address",
@@ -90,17 +69,191 @@ function App() {
             "type": "address"
           },
           {
-            "indexed": true,
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "Transfer",
+        "type": "event"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          }
+        ],
+        "name": "allowance",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
             "internalType": "uint256",
             "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "Withdrawal",
-        "type": "event"
+        "name": "approve",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       },
       {
         "inputs": [],
+        "name": "blockReward",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "burn",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "burnFrom",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "cap",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+          {
+            "internalType": "uint8",
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "subtractedValue",
+            "type": "uint256"
+          }
+        ],
+        "name": "decreaseAllowance",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "destroy",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
         "name": "getBalance",
         "outputs": [
           {
@@ -113,8 +266,102 @@ function App() {
         "type": "function"
       },
       {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "addedValue",
+            "type": "uint256"
+          }
+        ],
+        "name": "increaseAllowance",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
         "inputs": [],
-        "name": "lockTime",
+        "name": "name",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "internalType": "address payable",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "sendTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "reward",
+            "type": "uint256"
+          }
+        ],
+        "name": "setBlockReward",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "totalSupply",
         "outputs": [
           {
             "internalType": "uint256",
@@ -129,84 +376,54 @@ function App() {
         "inputs": [
           {
             "internalType": "address",
-            "name": "recipient",
+            "name": "to",
             "type": "address"
-          }
-        ],
-        "name": "requestTokens",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
+          },
           {
             "internalType": "uint256",
             "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "setLockTime",
-        "outputs": [],
+        "name": "transfer",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
       },
       {
         "inputs": [
           {
+            "internalType": "address",
+            "name": "from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "to",
+            "type": "address"
+          },
+          {
             "internalType": "uint256",
             "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "setWithdrawalAmount",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "token",
+        "name": "transferFrom",
         "outputs": [
           {
-            "internalType": "contract IERC20",
+            "internalType": "bool",
             "name": "",
-            "type": "address"
+            "type": "bool"
           }
         ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "withdraw",
-        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "withdrawEth",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "withdrawalAmount",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "stateMutability": "payable",
-        "type": "receive"
       }
     ],
   }
@@ -237,9 +454,10 @@ function App() {
   //use contract read
   function Example(){
     const { data, isError, isLoading } = useContractRead({
-      address: '0xf723B0f912f90a4a012C2Dff5C46146f71e6aA19',
+      address: '0x627a7Fc0E98731ea67175a993a7673C7bB340c7e',
       abi: faucetAbi.abi,
       functionName: 'getBalance',
+      args: ["0x4fA6eB9110236abd5D5193d463509cFb058b4290"]
     })
     console.log("this is data", {data})
     return(
@@ -250,16 +468,16 @@ function App() {
   //use contractwrite
   function ContractWrite(){
     const { data, isLoading, isSuccess, write } = useContractWrite({
-      address: '0xf723B0f912f90a4a012C2Dff5C46146f71e6aA19',
+      address: '0x627a7Fc0E98731ea67175a993a7673C7bB340c7e',
       abi: faucetAbi.abi,
-      functionName: 'requestTokens',
+      functionName: 'sendTokens',
     })
     return(
       <button 
         className="form-button"
         onClick={() =>
           write({
-            args: [inputValue],
+            args: [inputValue,200],
           })
         }
         >Submit</button>
