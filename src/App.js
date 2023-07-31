@@ -11,21 +11,16 @@ import { polygonMumbai } from 'wagmi/chains'
 
 function App() {
   const faucetAbi = {
-    "abi": [
+    "abi":[
       {
         "inputs": [
           {
-            "internalType": "uint256",
-            "name": "cap",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "reward",
-            "type": "uint256"
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
           }
         ],
-        "stateMutability": "nonpayable",
+        "stateMutability": "payable",
         "type": "constructor"
       },
       {
@@ -34,23 +29,36 @@ function App() {
           {
             "indexed": true,
             "internalType": "address",
-            "name": "owner",
+            "name": "from",
             "type": "address"
           },
           {
             "indexed": true,
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "indexed": false,
             "internalType": "uint256",
-            "name": "value",
+            "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "Approval",
+        "name": "Deposit",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "by",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "EthWithdrawn",
         "type": "event"
       },
       {
@@ -64,98 +72,25 @@ function App() {
           },
           {
             "indexed": true,
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
-          {
-            "indexed": false,
             "internalType": "uint256",
-            "name": "value",
+            "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "Transfer",
+        "name": "FeePaid",
         "type": "event"
       },
       {
         "inputs": [
           {
             "internalType": "address",
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "spender",
+            "name": "recipient",
             "type": "address"
           }
         ],
-        "name": "allowance",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "approve",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
-        "name": "balanceOf",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "blockReward",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
+        "name": "requestTokens",
+        "outputs": [],
+        "stateMutability": "payable",
         "type": "function"
       },
       {
@@ -166,94 +101,63 @@ function App() {
             "type": "uint256"
           }
         ],
-        "name": "burn",
+        "name": "setLockTime",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
       },
       {
         "inputs": [
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          },
           {
             "internalType": "uint256",
             "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "burnFrom",
+        "name": "setWithdrawalAmount",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
       },
       {
         "inputs": [],
-        "name": "cap",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
+        "name": "withdraw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
       },
       {
-        "inputs": [],
-        "name": "decimals",
-        "outputs": [
-          {
-            "internalType": "uint8",
-            "name": "",
-            "type": "uint8"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
+        "anonymous": false,
         "inputs": [
           {
+            "indexed": true,
             "internalType": "address",
-            "name": "spender",
+            "name": "to",
             "type": "address"
           },
           {
+            "indexed": true,
             "internalType": "uint256",
-            "name": "subtractedValue",
+            "name": "amount",
             "type": "uint256"
           }
         ],
-        "name": "decreaseAllowance",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "Withdrawal",
+        "type": "event"
       },
       {
         "inputs": [],
-        "name": "destroy",
+        "name": "withdrawEth",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
       },
       {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "account",
-            "type": "address"
-          }
-        ],
+        "stateMutability": "payable",
+        "type": "receive"
+      },
+      {
+        "inputs": [],
         "name": "getBalance",
         "outputs": [
           {
@@ -266,102 +170,8 @@ function App() {
         "type": "function"
       },
       {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "spender",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "addedValue",
-            "type": "uint256"
-          }
-        ],
-        "name": "increaseAllowance",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
         "inputs": [],
-        "name": "name",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-          {
-            "internalType": "address payable",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "recipient",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "sendTokens",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "reward",
-            "type": "uint256"
-          }
-        ],
-        "name": "setBlockReward",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "symbol",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "totalSupply",
+        "name": "lockTime",
         "outputs": [
           {
             "internalType": "uint256",
@@ -373,56 +183,29 @@ function App() {
         "type": "function"
       },
       {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "transfer",
+        "inputs": [],
+        "name": "token",
         "outputs": [
           {
-            "internalType": "bool",
+            "internalType": "contract IERC20",
             "name": "",
-            "type": "bool"
+            "type": "address"
           }
         ],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
       },
       {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "from",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "to",
-            "type": "address"
-          },
+        "inputs": [],
+        "name": "withdrawalAmount",
+        "outputs": [
           {
             "internalType": "uint256",
-            "name": "amount",
+            "name": "",
             "type": "uint256"
           }
         ],
-        "name": "transferFrom",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
       }
     ],
@@ -454,30 +237,30 @@ function App() {
   //use contract read
   function Example(){
     const { data, isError, isLoading } = useContractRead({
-      address: '0x627a7Fc0E98731ea67175a993a7673C7bB340c7e',
+      address: '0xdfE1A3D2aA130da1A786Bb6bFA341f0a764E4f35',
       abi: faucetAbi.abi,
       functionName: 'getBalance',
-      args: ["0x4fA6eB9110236abd5D5193d463509cFb058b4290"]
+      
     })
     console.log("this is data", {data})
     return(
-      <p>Data balance = {data}</p>
+      <p>Tokens in contract = {data}</p>
     )
   }
 
   //use contractwrite
   function ContractWrite(){
     const { data, isLoading, isSuccess, write } = useContractWrite({
-      address: '0x627a7Fc0E98731ea67175a993a7673C7bB340c7e',
+      address: '0xdfE1A3D2aA130da1A786Bb6bFA341f0a764E4f35',
       abi: faucetAbi.abi,
-      functionName: 'sendTokens',
+      functionName: 'requestTokens',
     })
     return(
       <button 
         className="form-button"
         onClick={() =>
           write({
-            args: [inputValue,200],
+            args: [inputValue],
           })
         }
         >Submit</button>
@@ -492,6 +275,7 @@ function App() {
     <div className="App">
      <WagmiConfig config={wagmiConfig}>
         <h1>Wallet Connect Dapp</h1>
+        <p>Please paste this address in your wallet to import the BUSD from mumbai testnet "0xD1f316B50E8D68a5Aa135CAd16CDA8f500fD12bf"</p>
         <Web3Button />
         <Example />
        
