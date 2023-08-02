@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Getting Started with the Web3ModalApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hello PixelDat HR! My name is Onwuka Rosario, here is the fullstack project i was assgined and in this readme i will explain the code thoroughly while listing issues i had and solutions to it
 
-## Available Scripts
+## Front End
 
 In the project directory, you can run:
 
