@@ -16,5 +16,5 @@ I installed the dependencies and packages, created the contract token for busd a
 - i got an error about query selector, the way to fix it is to wrap the contract write in a wagmi config, which is why i made a function component for the submit button where it uses contract write, and added it in the wagmi config
 
 ## Summary
-I had fun doing this, i love challenges and using new tools thoough i am experienced with wallet connect, but the changes it had me excited and i had fun debugging and finding new ways to ensure the progress of this project, thats why i find myself the perfect candidate for your team because despite all the errors and issues i may get i will still find a way to prevail. Hope you enjoyed and understood the summary and explanations. Cant wait to work with you.
+I had fun doing this, i love challenges and using new tools thoough i am experienced with wallet connect, but the changes it had me excited and i had fun debugging and finding new ways to ensure the progress of this project, thats why i find myself the perfect candidate for your team because despite all the errors and issues i may get i will still find a way to prevail. Hope you enjoyed and understood the summary and explanations. Cant wait to work with you. Find the live link to the website [here](https://web3modaldapp.vercel.app/)
 
